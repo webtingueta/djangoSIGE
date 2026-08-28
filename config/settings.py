@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "djangosige",
+    "djangosige.accounts",
     "djangosige.apps.base",
     "djangosige.apps.login",
     "djangosige.apps.cadastro",
@@ -67,7 +68,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "djangosige.middleware.LoginRequiredMiddleware",
 ]
 
 if DEBUG:
@@ -78,16 +78,9 @@ if DEBUG:
 # Autenticação
 # -------------
 AUTH_USER_MODEL = "auth.User"
-LOGIN_REDIRECT_URL = "home"
-LOGIN_URL = "login"
-LOGOUT_REDIRECT_URL = "login"
-
-LOGIN_NOT_REQUIRED = (
-    r"^/login/$",
-    r"/login/esqueceu/",
-    r"/login/trocarsenha/",
-    r"/logout/",
-)
+LOGIN_REDIRECT_URL = "pagina_inicial"
+LOGIN_URL = "accounts:login"
+LOGOUT_REDIRECT_URL = "accounts:login"
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
