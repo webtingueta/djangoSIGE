@@ -7,7 +7,23 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 
 ## [Unreleased]
 
+### Added
+
+- Pacote `config/` na raiz do repositório para centralizar os módulos de configuração do Django.
+- Modelo de variáveis de ambiente `example.env`.
+- Arquivo `.editorconfig` para padronização de estilo do editor.
+- Configurações do `ruff`, `mypy` e `pytest` centralizadas no `pyproject.toml`.
+- Configuração do `pre-commit` via `.pre-commit-config.yaml`.
+- Estores e automações de CI via GitHub Actions (`ci.yml`) e atualizações automáticas via Dependabot (`dependabot.yml`).
+- Dependências de desenvolvimento, testes, qualidade de código e documentação (`dev.txt`).
+- Suporte a formulários Bootstrap 5 no ambiente base (`django-crispy-forms` e `crispy-bootstrap5`).
+
 ### Changed
+
+- Reorganizada a estrutura de dependências do Python em diretório `requirements/` (`base.txt` e `dev.txt`).
+- Atualizado o módulo de entrada `manage.py` para utilizar as configurações do novo pacote `config`.
+- Otimizadas as rotinas e alvos do `Makefile`.
+- Regerado o arquivo `.gitignore` com padrões para ecossistema Python.
 
 - **Menu lateral reorganizado (#109).** Bloco `.user-info` compactado
   (avatar 36px à esquerda + nome/email à direita, no lugar dos 135px
@@ -71,6 +87,17 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 - `djangosige.__init__.__version__` passa a `'2.0'` (estava em `'0.0.1'`,
   desalinhado com a release v2.0.0). Template `base.html` volta a usar
   `{{versao}}` (context processor `sige_version` já existente).
+
+### Deprecated
+- Módulo `djangosige/configs/settings.py` descontinuado em favor da nova estrutura em `config/` (mantido temporariamente por acoplamento nos apps).
+
+### Removed
+
+- Arquivos de configuração Docker (`.dockerignore`, `Dockerfile`, `docker-compose.yaml` e `default.conf`).
+- Arquivos do Pipenv (`Pipfile` e `Pipfile.lock`) em favor da gestão via `pip`.
+- Arquivos legados de dependências e trava (`requirements_test.txt`, `uv.lock` e `setup.cfg`).
+- Script utilitário `contrib/env_gen.py`.
+- Integração contínua legada do Travis CI (`.travis.yaml`).
 
 ### Fixed
 
