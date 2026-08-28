@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "djangosige",
     "djangosige.accounts",
+    "djangosige.cadastros",
     "djangosige.apps.base",
     "djangosige.apps.login",
     "djangosige.apps.cadastro",

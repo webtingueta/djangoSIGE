@@ -10,6 +10,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("djangosige.urls")),
     path("accounts/", include("djangosige.accounts.urls")),
+    path("cadastros/", include("djangosige.cadastros.urls", namespace="cadastros")),
 ]
 
 if settings.DEBUG:
