@@ -1,9 +1,14 @@
-"""URLs para o projeto DjangoSIGE"""
+"""
+DjangoSIGE - Sistema de Gestão Empresarial.
+Projeto de código aberto sob a licença MIT.
+"""
 
 from django.urls import include, path
 
+from . import views as v
+
 urlpatterns = [
-    path("", include("djangosige.apps.base.urls")),
+    path("", v.pagina_inicial, name="pagina_inicial"),
     path("login/", include("djangosige.apps.login.urls")),
     path("cadastro/", include("djangosige.apps.cadastro.urls")),
     path("fiscal/", include("djangosige.apps.fiscal.urls")),
