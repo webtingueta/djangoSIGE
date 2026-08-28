@@ -96,7 +96,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # ------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS: list[str] = []
+STATICFILES_DIRS = [
+    str(BASE_DIR / "node_modules"),
+]
 
 # Arquivos de mídia
 # -----------------

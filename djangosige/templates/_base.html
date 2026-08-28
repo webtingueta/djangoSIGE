@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load i18n static %}
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>DjangoSIGE / {% block title %}{% endblock title %}</title>
+    <link rel="stylesheet"
+          href="{% static 'bootstrap/dist/css/bootstrap.css' %}" />
+    <link rel="stylesheet"
+          href="{% static 'bootstrap-icons/font/bootstrap-icons.css' %}" />
+    <script defer src="{% static '@popperjs/core/dist/umd/popper.js' %}"></script>
+    <script defer src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
+  </head>
+  <body class="{% block background_color %}bg-body-tertiary{% endblock background_color %}">
+    {% block content %}
+    {% endblock content %}
+  </body>
+</html>
