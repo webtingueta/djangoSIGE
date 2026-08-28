@@ -17,6 +17,7 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 - Estores e automações de CI via GitHub Actions (`ci.yml`) e atualizações automáticas via Dependabot (`dependabot.yml`).
 - Dependências de desenvolvimento, testes, qualidade de código e documentação (`dev.txt`).
 - Suporte a formulários Bootstrap 5 no ambiente base (`django-crispy-forms` e `crispy-bootstrap5`).
+- Adiciona relatório analítico sobre o estado atual do projeto (`docs/RELATORIO-28-08-26-9h32.md`).
 
 ### Changed
 
@@ -24,6 +25,7 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 - Atualizado o módulo de entrada `manage.py` para utilizar as configurações do novo pacote `config`.
 - Otimizadas as rotinas e alvos do `Makefile`.
 - Regerado o arquivo `.gitignore` com padrões para ecossistema Python.
+- Convertido o pacote `djangosige` em um app Django reutilizável.
 
 - **Menu lateral reorganizado (#109).** Bloco `.user-info` compactado
   (avatar 36px à esquerda + nome/email à direita, no lugar dos 135px
