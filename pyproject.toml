@@ -1,40 +1,60 @@
 [project]
 name = "djangosige"
 version = "1.0.0"
-description = "Sistema Integrado de Gestao Empresarial baseado em Django"
+description = "Sistema de Gestão Empresarial"
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
-license = { file = "LICENSE.md" }
+license = { text = "MIT" }
+requires-python = ">=3.12, <3.13"
+
 dependencies = [
-    # NFe stack (pinado em versões antigas — ver CHANGELOG): emissão de
-    # NF-e depende de PySIGNFe + cryptography 2.x + pyOpenSSL 17.x.
-    # Não bumpar sem rever PySIGNFe.
-    "cryptography==2.9.2",
-    "pyOpenSSL==17.5.0",
-    "PySIGNFe @ https://github.com/thiagopena/PySIGNFe/archive/master.zip",
-    "signxml==2.5.2",
-    # reportlab é usado transitivamente pelo PySIGNFe (DANFE), mas não
-    # declarado nas deps do PySIGNFe — precisa ficar explícito aqui.
-    "reportlab>=4.5",
-    # Geração de PDF dos orçamentos/pedidos (vendas e compras), via
-    # templates HTML/CSS. Substitui o geraldo a partir do #142.
-    "weasyprint>=68.1",
-    # Dados de exemplo (management command `create_data`).
-    "faker>=40.19.1",
-    # Demais runtime deps.
-    "asgiref>=3.11",
-    "django>=5.2,<5.3",
-    "dj-database-url>=2",
-    "lxml>=4.9,<5",
-    "pillow>=12",
-    "python-decouple>=3.8",
-    "sqlparse>=0.5",
+    "Django==5.2.14",
+    "python-decouple==3.8",
+    "dj-database-url==3.1.2",
+    "django-crispy-forms==2.7",
+    "crispy-bootstrap5==2026.3",
+    "weasyprint==68.1",
+    "PySIGNFe @ https://github.com/thiagopena/PySIGNFe/archive/master.zip#sha256=72c71249846ea61e18324a215f9aa361631acfe17f2923a0309d2a1124dd7c87",
 ]
 
 [dependency-groups]
 dev = [
-    "flake8>=7",
+    "ruff==0.16.5",
+    "mypy==2.3.1",
+    "django-stubs[compatible-mypy]==6.1.0",
+    "pre-commit==4.6.2",
+    "pytest==9.1.1",
+    "pytest-django==4.14.0",
+    "factory_boy==3.3.3",
+    "Sphinx==9.1.0",
+    "sphinx-autobuild==2025.8.25",
+    "django-debug-toolbar==7.1.1",
+    "django-extensions==4.1",
 ]
 
-[tool.uv]
-package = false
+[tool.ruff]
+line-length = 120
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main"]
+
+[[tool.mypy.overrides]]
+module = "*.migrations.*"
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["tests.py", "test_*.py", "**/tests.py", "**/test_*.py"]
+
+[tool.coverage.run]
+include = ["djangosige/*"]
+omit = ["*/migrations/*", "*/tests/*", "config/*", "docs/*"]
+plugins = ["django_coverage_plugin"]
