@@ -1,7 +1,13 @@
-# -*- coding: utf-8 -*-
+"""
+DjangoSIGE - Sistema de Gestão Empresarial.
+Projeto de código aberto sob a licença MIT.
 
-from djangosige import __version__
+Context processor para a versão do DjangoSIGE.
+"""
+
+from djangosige.version import __VERSION__
 
 
 def sige_version(request):
-    return {'versao': __version__}
+    """Adiciona a versão do DjangoSIGE ao contexto do template."""
+    return {"versao": __VERSION__}

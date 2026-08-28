@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "crispy_forms",
     "crispy_bootstrap5",
+    "djangosige",
     "djangosige.apps.base",
     "djangosige.apps.login",
     "djangosige.apps.cadastro",
@@ -66,7 +67,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "djangosige.middleware.LoginRequiredMiddleware",
     "djangosige.middleware.LoginRequiredMiddleware",
 ]
 
@@ -102,7 +102,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # ------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [APPS_DIR / "static"]
+STATICFILES_DIRS: list[str] = []
 
 # Arquivos de mídia
 # -----------------
@@ -114,7 +114,7 @@ MEDIA_ROOT = APPS_DIR / "media"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [APPS_DIR / "templates"],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -136,7 +136,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Fixtures
 # --------
-FIXTURE_DIRS = [APPS_DIR / "fixtures"]
+FIXTURE_DIRS: list[str] = []
 
 # Email
 # -----
