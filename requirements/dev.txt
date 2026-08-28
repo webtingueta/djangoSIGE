@@ -1,1 +1,16 @@
 -r base.txt
+
+ruff==0.16.5
+mypy==2.3.1
+django-stubs[compatible-mypy]==6.1.0
+pre_commit==4.6.2
+
+pytest==9.1.1
+pytest-django==4.14.0
+factory_boy==3.3.3
+
+Sphinx==9.1.0
+sphinx-autobuild==2025.8.25
+
+django-debug-toolbar==7.1.1
+django-extensions==4.1
