@@ -1,0 +1,63 @@
+# Configuração do Dependabot para um projeto Django / Python
+# Atualizações automáticas de dependências via GitHub Actions / Dependabot
+
+version: 2
+updates:
+  # ---------------------------------------------------------------------------
+  # 1. Ecossistema Pip (Gerenciamento de Pacotes Python)
+  # Detecta automaticamente `pyproject.toml`, `requirements.txt`, etc.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Sao_Paulo"
+    open-pull-requests-limit: 10
+
+    # Rótulos aplicados automaticamente aos Pull Requests
+    labels:
+      - "dependencies"
+      - "python"
+
+    # Prefixo no padrão Conventional Commits para os PRs gerados
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+      include: "scope"
+
+    # Estratégia de versionamento
+    versioning-strategy: "auto"
+
+    # Agrupamento de atualizações para evitar poluição de PRs no repositório
+    groups:
+      django-core:
+        patterns:
+          - "django"
+          - "django-*"
+          - "dj-*"
+          - "crispy-*"
+          - "django-stubs*"
+      dev-tools:
+        patterns:
+          - "pytest*"
+          - "ruff"
+          - "mypy"
+          - "coverage"
+          - "factory_boy"
+          - "pre-commit"
+          - "sphinx*"
+
+  # ---------------------------------------------------------------------------
+  # 2. GitHub Actions (Mantém as Actions dos Workflows do CI/CD Atualizadas)
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "dependencies"
+      - "ci/cd"
+    commit-message:
+      prefix: "ci(deps)"

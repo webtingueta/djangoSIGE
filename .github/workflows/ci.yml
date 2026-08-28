@@ -1,0 +1,68 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    # services:
+    #   postgres:
+    #     image: postgres:16
+    #     env:
+    #       POSTGRES_DB: test_db
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_PASSWORD: postgres_password
+    #     ports:
+    #       - 5432:5432
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar UV (Gerenciador de Pacotes)
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+          cache-suffix: "uv"
+
+      - name: Instalar Dependências de Sistema (C Cairo / Pango para WeasyPrint)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential python3-dev libffi-dev libssl-dev \
+            pango1.0-tools libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0
+
+      - name: Instalar Dependências do Projeto
+        run: |
+          uv pip install --system . --group dev
+
+      - name: Linters e Verificação de Formatação (Ruff)
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Checagem Estática de Tipos (Mypy)
+        run: |
+          mypy djangosige
+
+      - name: Executar Testes Automatizados (Pytest)
+        env:
+          SECRET_KEY: "ci-secret-key-for-testing-only"
+          DEBUG: "True"
+          DATABASE_URL: "sqlite:///db.sqlite3"
+        run: |
+          pytest --cov=djangosige
