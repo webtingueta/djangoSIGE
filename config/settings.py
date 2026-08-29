@@ -24,6 +24,17 @@ USE_TZ = True
 DATABASES = {"default": config("DATABASE_URL", cast=db_url)}
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Cache
+# -----
+CACHES = {
+    "default": {
+        "BACKEND": (
+            "django.core.cache.backends.locmem.LocMemCache" if DEBUG else "django.core.cache.backends.redis.RedisCache"
+        ),
+        "LOCATION": "" if DEBUG else config("REDIS_URL"),
+    }
+}
+
 # URLs
 # ----
 ROOT_URLCONF = "config.urls"
