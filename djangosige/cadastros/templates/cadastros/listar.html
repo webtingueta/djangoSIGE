@@ -1,0 +1,159 @@
+{% extends "cadastros/_base.html" %}
+
+{% block title %}
+  {{ block.super }} / Listar Cadastros
+{% endblock title %}
+
+{% block content_cadastros %}
+  <div class="d-none d-lg-block">
+    <form class="card card-body border-0 shadow-lg mb-3">
+      <div class="d-flex align-items-center gap-2">
+        <input type="search"
+               class="form-control"
+               placeholder="Pesquisar cadastros..." />
+
+        <button class="btn btn-outline-secondary" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+
+        <button class="btn btn-outline-secondary" type="submit">
+          <i class="bi bi-filter"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card card-body border-0 shadow-lg mb-3">
+    <div class="row gap-2 mb-3">
+      <div class="d-lg-none col-12 col-md-6">
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle w-100"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">{{ parceiro|default:"Todos" }}</button>
+          <ul class="dropdown-menu w-100">
+            <li>
+              <a href="#"
+                 class="dropdown-item text-capitalize {% if not parceiro %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+                todos
+              </a>
+            </li>
+
+            <li>
+              <a href="#"
+                 class="dropdown-item text-capitalize {% if parceiro == 'clientes' %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+                clientes
+              </a>
+            </li>
+
+            <li>
+              <a href="#"
+                 class="dropdown-item text-capitalize {% if parceiro == 'fornecedores' %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+                fornecedores
+              </a>
+            </li>
+
+            <li>
+              <a href="#"
+                 class="dropdown-item text-capitalize {% if parceiro == 'transportadoras' %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+                transportadoras
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="d-none d-lg-block col-lg-8">
+        <nav class="nav nav-underline">
+          <a href=""
+             class="nav-link text-capitalize {% if not parceiro %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+            todos
+          </a>
+
+          <a href=""
+             class="nav-link text-capitalize {% if parceiro == 'clientes' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+            clientes
+          </a>
+
+          <a href=""
+             class="nav-link text-capitalize {% if parceiro == 'fornecedores' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+            fornecedores
+          </a>
+
+          <a href=""
+             class="nav-link text-capitalize {% if parceiro == 'transportadoras' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+            transportadoras
+          </a>
+        </nav>
+      </div>
+
+      <div class="col-12 col-md">
+        <div class="d-flex align-items-center justify-content-center justify-content-md-end gap-2">
+          <button type="button" class="d-lg-none btn btn-outline-secondary">
+            <i class="bi bi-search"></i>
+          </button>
+
+          <button type="button" class="d-lg-none btn btn-outline-secondary">
+            <i class="bi bi-filter"></i>
+          </button>
+
+          <button type="button" class="btn btn-outline-secondary">
+            <i class="bi bi-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Descrição</th>
+            <th scope="col" class="text-center text-nowrap">Tipo de Pessoa</th>
+            <th scope="col" class="text-center">Cliente</th>
+            <th scope="col" class="text-center">Fornecedor</th>
+            <th scope="col" class="text-center">Transportadora</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for cadastro in cadastros %}
+            <tr>
+              <th scope="row">{{ cadastro.id }}</th>
+              <td class="text-nowrap">{{ cadastro.descricao }}</td>
+              <td class="text-center">{% if cadastro.tipo_pessoa == "PF" %}Pessoa Física{% else %}Pessoa Jurídica{% endif %}</td>
+              <td class="text-center">
+                {% if cadastro.cliente %}
+                  <i class="bi bi-check-lg text-azul-oceano"></i>
+                {% else %}
+                  <i class="bi bi-x-lg text-vermelho-coral"></i>
+                {% endif %}
+              </td>
+
+              <td class="text-center">
+                {% if cadastro.fornecedor %}
+                  <i class="bi bi-check-lg text-azul-oceano"></i>
+                {% else %}
+                  <i class="bi bi-x-lg text-vermelho-coral"></i>
+                {% endif %}
+              </td>
+
+              <td class="text-center">
+                {% if cadastro.transportadora %}
+                  <i class="bi bi-check-lg text-azul-oceano"></i>
+                {% else %}
+                  <i class="bi bi-x-lg text-vermelho-coral"></i>
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6">Nenhum cadastro encontrado.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content_cadastros %}

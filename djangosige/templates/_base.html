@@ -1,19 +1,134 @@
 <!DOCTYPE html>
-{% load i18n static %}
+{% load i18n static cache %}
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <title>DjangoSIGE / {% block title %}{% endblock title %}</title>
-    <link rel="stylesheet"
-          href="{% static 'bootstrap/dist/css/bootstrap.css' %}" />
-    <link rel="stylesheet"
-          href="{% static 'bootstrap-icons/font/bootstrap-icons.css' %}" />
-    <script defer src="{% static '@popperjs/core/dist/umd/popper.js' %}"></script>
-    <script defer src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
+    <title>{% block title %}{% endblock title %} / DjangoSIGE</title>
+    {% cache 300 bootstrap_css %}
+      <link rel="stylesheet"
+            href="{% static 'bootstrap/dist/css/bootstrap.css' %}" />
+      <link rel="stylesheet"
+            href="{% static 'bootstrap-icons/font/bootstrap-icons.css' %}" />
+    {% endcache %}
+    <link rel="stylesheet" href="{% static 'css/djangosige.css' %}" />
+    {% cache 300 bootstrap_js %}
+      <script defer src="{% static '@popperjs/core/dist/umd/popper.js' %}"></script>
+      <script defer src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
+    {% endcache %}
+    <script defer src="{% static 'js/djangosige.js' %}"></script>
   </head>
   <body class="{% block background_color %}bg-body-tertiary{% endblock background_color %}">
-    {% block content %}
-    {% endblock content %}
+    {% block menu_superior %}
+      <div class="mb-3 py-3 shadow-lg">
+        <div class="container-xxl">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-2">
+              <button class="d-lg-none btn btn-outline-secondary"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasMenuSuperioGlobal"
+                      aria-controls="offcanvasMenuSuperioGlobal">
+                <i class="bi bi-list"></i>
+              </button>
+
+              <a href="{% url "pagina_inicial" %}"
+                 class="fs-4 link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">
+                {% include "_logo.html" %}
+              </a>
+            </div>
+
+            <div class="d-none d-lg-block">{% include "_menu_navegacao.html" %}</div>
+
+            <div class="dropdown">
+              <button class="btn btn-outline-secondary dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                <i class="bi bi-person"></i>
+              </button>
+
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <i class="bi bi-person-badge"></i> Perfil
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <i class="bi bi-building"></i> Minha Empresa
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <i class="bi bi-people"></i> Usuários
+                  </a>
+                </li>
+
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <i class="bi bi-info-circle"></i> Documentação
+                  </a>
+                </li>
+
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <i class="bi bi-box-arrow-right"></i> Encerrar sessão
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="offcanvas offcanvas-start"
+            tabindex="-1"
+            id="offcanvasMenuSuperioGlobal"
+            aria-labelledby="offcanvasMenuSuperioGlobalLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasMenuSuperioGlobalLabel">{% include "_logo.html" %}</h5>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="offcanvas"
+                  aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">{% include "_menu_navegacao.html" %}</div>
+      </div>
+    {% endblock menu_superior %}
+
+    {% block breadcrumb %}
+      <div class="d-none d-lg-block">
+        <div class="container-xxl">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                {% block breadcrumb_items %}
+                  <li class="breadcrumb-item text-vermelho-coral">
+                    <i class="bi bi-house"></i>
+                  </li>
+                {% endblock breadcrumb_items %}
+              </ol>
+            </nav>
+
+            <p class="m-0 text-azul-oceano">{{ request.user.username }}</p>
+          </div>
+        </div>
+      </div>
+    {% endblock breadcrumb %}
+
+    <div class="container-xxl">
+      {% block content %}{% endblock content %}
+    </div>
   </body>
 </html>

@@ -1,0 +1,32 @@
+<nav class="nav nav-underline flex-column flex-lg-row">
+  <a href="{% url "cadastros:listar" %}"
+     class="nav-link text-capitalize {% if pagina == 'cadastros' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}"
+     {% if pagina == "cadastros" %}aria-current="page"{% endif %}>
+    cadastros
+  </a>
+  <a href=""
+     class="nav-link text-capitalize {% if pagina == 'produtos' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}"
+     {% if pagina == "produtos" %}aria-current="page"{% endif %}>
+    produtos
+  </a>
+  <a href=""
+     class="nav-link text-capitalize {% if pagina == 'compras' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}"
+     {% if pagina == "compras" %}aria-current="page"{% endif %}>
+    compras
+  </a>
+  <a href=""
+     class="nav-link text-capitalize {% if pagina == 'vendas' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}"
+     {% if pagina == "vendas" %}aria-current="page"{% endif %}>
+    vendas
+  </a>
+  <a href=""
+     class="nav-link text-capitalize {% if pagina == 'financeiro' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}"
+     {% if pagina == "financeiro" %}aria-current="page"{% endif %}>
+    financeiro
+  </a>
+  <a href=""
+     class="nav-link text-capitalize {% if pagina == 'fiscal' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}"
+     {% if pagina == "fiscal" %}aria-current="page"{% endif %}>
+    fiscal
+  </a>
+</nav>

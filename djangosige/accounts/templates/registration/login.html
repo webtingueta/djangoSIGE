@@ -4,9 +4,9 @@
 
 {% block title %}Login{% endblock title %}
 
+{% block background_color %}bg-azul-oceano{% endblock background_color %}>
 {% block menu_superior %}{% endblock menu_superior %}
-
-{% block background_color %}bg-primary{% endblock background_color %}">
+{% block breadcrumb %}{% endblock breadcrumb %}
 
 {% block content %}
   <div class="min-vh-100">
@@ -14,23 +14,27 @@
       <div class="col-12 col-sm-10 col-md-8 col-lg-6">
         <h1 class="m-5 text-center">{% include "_logo.html" %}</h1>
         <div class="card mb-3">
+
           <div class="card-header text-center bg-transparent border-0">
             <p class="m-0 p-0">Digite seu nome de usuário e a senha para entrar</p>
           </div>
+
           <form action="{{ request.path }}" method="post" class="card-body">
             {% csrf_token %}
             {{ form|crispy }}
             <button type="submit" class="btn btn-outline-success w-100">Login</button>
           </form>
+
           <div class="card-footer text-center bg-transparent border-0">
             <p><small class="text-muted"><a href="{% url 'login:esqueceuview' %}">Esqueceu a senha?</a></small></p>
           </div>
         </div>
+
         <p>
           <small>
             *Primeiro acesso? Leia a
             <a href="https://github.com/thiagopena/djangoSIGE"
-                class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+               class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
               Documentação
             </a>
           </small>

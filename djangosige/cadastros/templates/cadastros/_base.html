@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+
+{% block title %}Cadastros{% endblock title %}
+
+{% block breadcrumb_items %}
+  <li class="breadcrumb-item">
+    <a href="{% url "pagina_inicial" %}"
+       class="breadcrumb-link text-azul-oceano"><i class="bi bi-house"></i></a>
+  </li>
+  <li class="breadcrumb-item text-vermelho-coral">Cadastros</li>
+{% endblock breadcrumb_items %}
+
+{% block content %}
+  {% block content_cadastros %}{% endblock content_cadastros %}
+{% endblock content %}

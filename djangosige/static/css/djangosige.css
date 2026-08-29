@@ -1,0 +1,18 @@
+:root {
+  --bs-azul-oceano-primary: rgb(33, 127, 171);
+  --bs-azul-oceano-subtle: rgb(36, 143, 191);
+  --bs-vermelho-coral-primary: rgb(245, 64, 51);
+  --bs-vermelho-coral-subtle: rgb(244, 100, 52);
+}
+
+.bg-azul-oceano {
+  background-color: var(--bs-azul-oceano-primary) !important;
+}
+
+.text-azul-oceano {
+  color: var(--bs-azul-oceano-primary) !important;
+}
+
+.text-vermelho-coral {
+  color: var(--bs-vermelho-coral-primary) !important;
+}

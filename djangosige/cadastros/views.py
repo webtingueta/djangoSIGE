@@ -4,25 +4,32 @@ Projeto de código aberto sobre a licença MIT.
 """
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
 
 @login_required
-def listar_cadastros(request: HttpRequest) -> HttpResponse:
-    return render(request, "cadastros/listar.html", {})
+def listar_cadastros(request):
+    template_name = "cadastros/listar.html"
+    context = {"pagina": "cadastros"}
+    return render(request, template_name, context)
 
 
 @login_required
-def ver_cadastro(request: HttpRequest, pk: int) -> HttpResponse:
-    return render(request, "cadastros/ver.html", {"pk": pk})
+def ver_cadastro(request, pk):
+    template_name = "cadastros/ver.html"
+    context = {"pagina": "cadastros", "pk": pk}
+    return render(request, template_name, context)
 
 
 @login_required
-def criar_cadastro(request: HttpRequest) -> HttpResponse:
-    return render(request, "cadastros/criar.html", {})
+def criar_cadastro(request):
+    template_name = "cadastros/criar.html"
+    context = {"pagina": "cadastros"}
+    return render(request, template_name, context)
 
 
 @login_required
-def editar_cadastro(request: HttpRequest, pk: int) -> HttpResponse:
-    return render(request, "cadastros/editar.html", {"pk": pk})
+def editar_cadastro(request, pk):
+    template_name = "cadastros/editar.html"
+    context = {"pagina": "cadastros", "pk": pk}
+    return render(request, template_name, context)
