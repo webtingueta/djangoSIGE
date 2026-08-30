@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load i18n static cache %}
+{% load i18n static cache djangosige %}
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,7 +38,7 @@
               </a>
             </div>
 
-            <div class="d-none d-lg-block">{% include "_menu_navegacao.html" %}</div>
+            <div class="d-none d-lg-block">{% navbar %}</div>
 
             <div class="dropdown">
               <button class="btn btn-outline-secondary dropdown-toggle"
@@ -103,7 +103,7 @@
                   data-bs-dismiss="offcanvas"
                   aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">{% include "_menu_navegacao.html" %}</div>
+        <div class="offcanvas-body">{% navbar %}</div>
       </div>
     {% endblock menu_superior %}
 
@@ -130,5 +130,13 @@
     <div class="container-xxl">
       {% block content %}{% endblock content %}
     </div>
+
+    {% block modal %}
+    <div class="modal fade" id="generalModal" tabindex="-1" aria-labelledby="generalModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        {% block modal_dialog %}{% endblock modal_dialog %}
+      </div>
+    </div>
+    {% endblock modal %}
   </body>
 </html>

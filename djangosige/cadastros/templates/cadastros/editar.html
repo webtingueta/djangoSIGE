@@ -1,0 +1,133 @@
+{% extends "cadastros/_base.html" %}
+
+{% load djangosige crispy_forms_field crispy_forms_tags %}
+
+{% block title %}
+  {{ block.super }} / {{ cadastro.descricao }}
+{% endblock title %}
+
+{% block breadcrumb_items %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'pagina_inicial' %}"
+       class="breadcrumb-link text-azul-oceano"><i class="bi bi-house"></i></a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'cadastros:listar' %}"
+       class="breadcrumb-link text-azul-oceano">Cadastros</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{{ cadastro.get_absolute_url }}"
+       class="breadcrumb-link text-azul-oceano">{{ cadastro.descricao }}</a>
+  </li>
+
+  <li class="breadcrumb-item text-vermelho-coral">Editar</li>
+{% endblock breadcrumb_items %}
+
+{% block content_cadastros %}
+<div class="card card-body border-0 shadow-lg mb-3">
+  <div class="row align-items-center gap-2 mb-3">
+    <div class="d-lg-none col-12 col-md-6">
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-capitalize"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+          {{ secao|default:"Geral" }}
+        </button>
+        <ul class="dropdown-menu w-100">
+          <li>
+            <a href="{% querystring secao='' %}"
+               class="dropdown-item text-capitalize {% if not secao or secao == 'geral' %}active{% endif %}">
+              Geral
+            </a>
+          </li>
+          <li>
+            <a href="{% querystring secao='enderecos' %}"
+               class="dropdown-item text-capitalize {% if secao == 'enderecos' %}active{% endif %}">
+              Endereços
+            </a>
+          </li>
+          <li>
+            <a href="{% querystring secao='contatos' %}"
+               class="dropdown-item text-capitalize {% if secao == 'contatos' %}active{% endif %}">
+              Contatos
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-8">
+      <nav class="nav nav-underline">
+        <a href="{% querystring secao='' %}"
+           class="nav-link text-capitalize {% if not secao or secao == 'geral' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+          Geral
+        </a>
+
+        <a href="{% querystring secao='enderecos' %}"
+           class="nav-link text-capitalize {% if secao == 'enderecos' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+          Endereços
+        </a>
+
+        <a href="{% querystring secao='contatos' %}"
+           class="nav-link text-capitalize {% if secao == 'contatos' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+          Contatos
+        </a>
+      </nav>
+    </div>
+
+    <div class="col-12 col-md">
+      <div class="d-flex align-items-center justify-content-center justify-content-md-end gap-2">
+        <a href="{% url 'cadastros:listar' %}"
+           class="btn btn-outline-secondary"
+           title="Voltar para a listagem">
+          <i class="bi bi-chevron-double-left"></i>
+        </a>
+
+        <a href="{{ cadastro.get_absolute_url }}"
+           class="btn btn-outline-secondary"
+           title="Voltar para a visualização do cadastro">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+
+        <a href="{% url 'cadastros:criar' %}" class="btn btn-outline-secondary" title="criar cadastro">
+          <i class="bi bi-plus"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <form method="post" action="{{ request.path }}" class="row g-3 mb-3 align-items-stretch">
+    {% csrf_token %}
+    <div class="col-12 col-lg-6">
+      <div class="mb-2">
+        {{ form.descricao|as_crispy_field }}
+      </div>
+
+      <div class="mb-2">
+        {{ form.tipo_pessoa|as_crispy_field }}
+      </div>
+
+      <div class="card p-3 mb-3 bg-light border-0">
+        <label class="form-label fw-bold mb-2">Vínculos do Cadastro</label>
+        {{ form.cliente|as_crispy_field }}
+        {{ form.fornecedor|as_crispy_field }}
+        {{ form.transportadora|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6 d-flex flex-column">
+      <div class="order-2 order-lg-1 flex-grow-1 d-flex flex-column mb-2">
+        {{ form.observacao|as_crispy_field }}
+      </div>
+
+      <div class="order-1 order-lg-2 mb-2">
+        {{ form.ativo|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+      <button type="submit" class="btn btn-outline-success w-100"><i class="bi bi-check"></i> Salvar</button>
+    </div>
+  </form>
+</div>
+{% endblock content_cadastros %}

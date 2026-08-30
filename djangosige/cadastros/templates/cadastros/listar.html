@@ -1,159 +1,170 @@
 {% extends "cadastros/_base.html" %}
 
+{% load djangosige crispy_forms_field crispy_forms_tags %}
+
 {% block title %}
   {{ block.super }} / Listar Cadastros
 {% endblock title %}
 
 {% block content_cadastros %}
-  <div class="d-none d-lg-block">
-    <form class="card card-body border-0 shadow-lg mb-3">
-      <div class="d-flex align-items-center gap-2">
-        <input type="search"
-               class="form-control"
-               placeholder="Pesquisar cadastros..." />
+  <div class="container-xxl">
+    <div class="card card-body border-0 shadow-lg mb-3">
+      <div class="row gap-2 mb-3">
+        <div class="d-lg-none col-12 col-md-6">
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle w-100 text-capitalize"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">{{ relacionamento|default:"Todos" }}</button>
+            <ul class="dropdown-menu w-100">
+              <li>
+                <a href="{% querystring relacionamento='' %}"
+                   class="dropdown-item text-capitalize {% if not relacionamento %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+                  todos
+                </a>
+              </li>
 
-        <button class="btn btn-outline-secondary" type="submit">
-          <i class="bi bi-search"></i>
-        </button>
+              <li>
+                <a href="{% querystring relacionamento='clientes' %}"
+                   class="dropdown-item text-capitalize {% if relacionamento == 'clientes' %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+                  clientes
+                </a>
+              </li>
 
-        <button class="btn btn-outline-secondary" type="submit">
-          <i class="bi bi-filter"></i>
-        </button>
-      </div>
-    </form>
-  </div>
+              <li>
+                <a href="{% querystring relacionamento='fornecedores' %}"
+                   class="dropdown-item text-capitalize {% if relacionamento == 'fornecedores' %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+                  fornecedores
+                </a>
+              </li>
 
-  <div class="card card-body border-0 shadow-lg mb-3">
-    <div class="row gap-2 mb-3">
-      <div class="d-lg-none col-12 col-md-6">
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary dropdown-toggle w-100"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false">{{ parceiro|default:"Todos" }}</button>
-          <ul class="dropdown-menu w-100">
-            <li>
-              <a href="#"
-                 class="dropdown-item text-capitalize {% if not parceiro %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
-                todos
-              </a>
-            </li>
+              <li>
+                <a href="{% querystring relacionamento='transportadoras' %}"
+                   class="dropdown-item text-capitalize {% if relacionamento == 'transportadoras' %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+                  transportadoras
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-            <li>
-              <a href="#"
-                 class="dropdown-item text-capitalize {% if parceiro == 'clientes' %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
-                clientes
-              </a>
-            </li>
+        <div class="d-none d-lg-block col-lg-8">
+          <nav class="nav nav-underline">
+            <a href="{% querystring relacionamento='' %}"
+               class="nav-link text-capitalize {% if not relacionamento %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+              todos
+            </a>
 
-            <li>
-              <a href="#"
-                 class="dropdown-item text-capitalize {% if parceiro == 'fornecedores' %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
-                fornecedores
-              </a>
-            </li>
+            <a href="{% querystring relacionamento='clientes' %}"
+               class="nav-link text-capitalize {% if relacionamento == 'clientes' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+              clientes
+            </a>
 
-            <li>
-              <a href="#"
-                 class="dropdown-item text-capitalize {% if parceiro == 'transportadoras' %}text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
-                transportadoras
-              </a>
-            </li>
-          </ul>
+            <a href="{% querystring relacionamento='fornecedores' %}"
+               class="nav-link text-capitalize {% if relacionamento == 'fornecedores' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+              fornecedores
+            </a>
+
+            <a href="{% querystring relacionamento='transportadoras' %}"
+               class="nav-link text-capitalize {% if relacionamento == 'transportadoras' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
+              transportadoras
+            </a>
+          </nav>
+        </div>
+
+        <div class="col-12 col-md">
+          <div class="d-flex align-items-center justify-content-center justify-content-md-end gap-2">
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#generalModal">
+              <i class="bi bi-search"></i>
+            </button>
+
+            <a href="{% url 'cadastros:criar' %}" class="btn btn-outline-secondary" title="criar cadastro">
+              <i class="bi bi-plus"></i>
+            </a>
+          </div>
         </div>
       </div>
 
-      <div class="d-none d-lg-block col-lg-8">
-        <nav class="nav nav-underline">
-          <a href=""
-             class="nav-link text-capitalize {% if not parceiro %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
-            todos
-          </a>
-
-          <a href=""
-             class="nav-link text-capitalize {% if parceiro == 'clientes' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
-            clientes
-          </a>
-
-          <a href=""
-             class="nav-link text-capitalize {% if parceiro == 'fornecedores' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
-            fornecedores
-          </a>
-
-          <a href=""
-             class="nav-link text-capitalize {% if parceiro == 'transportadoras' %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}">
-            transportadoras
-          </a>
-        </nav>
-      </div>
-
-      <div class="col-12 col-md">
-        <div class="d-flex align-items-center justify-content-center justify-content-md-end gap-2">
-          <button type="button" class="d-lg-none btn btn-outline-secondary">
-            <i class="bi bi-search"></i>
-          </button>
-
-          <button type="button" class="d-lg-none btn btn-outline-secondary">
-            <i class="bi bi-filter"></i>
-          </button>
-
-          <button type="button" class="btn btn-outline-secondary">
-            <i class="bi bi-plus"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Descrição</th>
-            <th scope="col" class="text-center text-nowrap">Tipo de Pessoa</th>
-            <th scope="col" class="text-center">Cliente</th>
-            <th scope="col" class="text-center">Fornecedor</th>
-            <th scope="col" class="text-center">Transportadora</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for cadastro in cadastros %}
+      <div class="table-responsive mb-3">
+        <table class="table table-hover align-middle">
+          <thead>
             <tr>
-              <th scope="row">{{ cadastro.id }}</th>
-              <td class="text-nowrap">{{ cadastro.descricao }}</td>
-              <td class="text-center">{% if cadastro.tipo_pessoa == "PF" %}Pessoa Física{% else %}Pessoa Jurídica{% endif %}</td>
-              <td class="text-center">
-                {% if cadastro.cliente %}
-                  <i class="bi bi-check-lg text-azul-oceano"></i>
-                {% else %}
-                  <i class="bi bi-x-lg text-vermelho-coral"></i>
-                {% endif %}
-              </td>
-
-              <td class="text-center">
-                {% if cadastro.fornecedor %}
-                  <i class="bi bi-check-lg text-azul-oceano"></i>
-                {% else %}
-                  <i class="bi bi-x-lg text-vermelho-coral"></i>
-                {% endif %}
-              </td>
-
-              <td class="text-center">
-                {% if cadastro.transportadora %}
-                  <i class="bi bi-check-lg text-azul-oceano"></i>
-                {% else %}
-                  <i class="bi bi-x-lg text-vermelho-coral"></i>
-                {% endif %}
-              </td>
+              {% th_sortable field="id" label="#" %}
+              {% th_sortable field="descricao" label="Descrição" %}
+              {% th_sortable field="tipo_pessoa" label="Tipo de Pessoa" align="center" %}
+              {% th_sortable field="cliente" label="Cliente" align="center" %}
+              {% th_sortable field="fornecedor" label="Fornecedor" align="center" %}
+              {% th_sortable field="transportadora" label="Transportadora" align="center" %}
             </tr>
-          {% empty %}
-            <tr>
-              <td colspan="6">Nenhum cadastro encontrado.</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {% for cadastro in cadastros %}
+              {% with cor_status=cadastro.ativo|yesno:",text-secondary" %}
+                <tr class="{% if not cadastro.ativo %}text-muted{% endif %}">
+                  <th scope="row">{{ cadastro.id }}</th>
+                  <td class="text-nowrap">
+                    <a href="{{ cadastro.get_absolute_url }}"
+                      class="{% if cadastro.ativo %}link-body-emphasis{% else %}link-secondary{% endif %} link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                      {{ cadastro.descricao }}
+                    </a>
+                  </td>
+                  <td class="text-center {% if not cadastro.ativo %}text-secondary{% endif %}">
+                    {{ cadastro.get_tipo_pessoa_display }}
+                  </td>
+                  <td class="text-center">
+                    {% include "_status_icon.html" with status=cadastro.cliente true_color=cor_status false_color=cor_status %}
+                  </td>
+                  <td class="text-center">
+                    {% include "_status_icon.html" with status=cadastro.fornecedor true_color=cor_status false_color=cor_status %}
+                  </td>
+                  <td class="text-center">
+                    {% include "_status_icon.html" with status=cadastro.transportadora true_color=cor_status false_color=cor_status %}
+                  </td>
+                </tr>
+              {% endwith %}
+            {% empty %}
+              {% include "_table_empty.html" with colspan=6 %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% include "_pagination.html" %}
     </div>
   </div>
 {% endblock content_cadastros %}
+
+{% block modal_dialog %}
+<form method="get" class="modal-content">
+  <div class="modal-header border-0">
+    <h1 class="modal-title fs-5" id="generalModalLabel">Pesquisa Avançada</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    {% with form=filter.form %}
+    <div class="row">
+      <div class="col-12 col-lg-8 mb-3">
+        {{ form.descricao|as_crispy_field }}
+      </div>
+      <div class="col-12 col-lg-4 mb-3">
+        {{ form.tipo_pessoa|as_crispy_field }}
+      </div>
+      <div class="col-12 col-lg mb-3">
+        {{ form.cliente|as_crispy_field }}
+      </div>
+      <div class="col-12 col-lg mb-3">
+        {{ form.fornecedor|as_crispy_field }}
+      </div>
+      <div class="col-12 col-lg mb-3">
+        {{ form.transportadora|as_crispy_field }}
+      </div>
+    </div>
+    {% endwith %}
+  </div>
+  <div class="modal-footer border-0">
+    <div class="text-center">
+      <button type="submit" class="btn btn-outline-primary"><i class="bi bi-search"></i> Pesquisar</button>
+    </div>
+  </div>
+</form>
+{% endblock modal_dialog %}

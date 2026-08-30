@@ -5,8 +5,8 @@ from . import views
 app_name = "cadastros"
 
 urlpatterns = [
-    path("", views.listar_cadastros, name="listar"),
-    path("ver/<int:pk>/", views.ver_cadastro, name="ver"),
-    path("editar/<int:pk>/", views.editar_cadastro, name="editar"),
-    path("criar/", views.criar_cadastro, name="criar"),
+    path("", views.ListarCadastros.as_view(), name="listar"),
+    path("criar/", views.CriarCadastro.as_view(), name="criar"),
+    path("<int:pk>/", views.VerCadastro.as_view(), name="ver"),
+    path("<int:pk>/editar/", views.EditarCadastro.as_view(), name="editar"),
 ]

@@ -1,0 +1,40 @@
+{% comment %}
+  =============================================================================
+  PARTIAL: _status_icon.html
+  =============================================================================
+  Descrição:
+    Renderiza um ícone de status booleano (check verde/azul ou 'X' vermelho)
+    com acessibilidade (aria-label) para ser usado em tabelas, cards ou listas.
+
+  Parâmetros (with ...):
+    - status (bool)         : Valor booleano para definir o ícone retornado. [Obrigatório]
+                              Default: False
+    - true_icon (string)    : Ícone exibido quando verdadeiro. [Opcional]
+                              Default: "bi bi-check-lg"
+    - false_icon (string)   : Ícone exibido quando falso. [Opcional]
+                              Default: "bi bi-x-lg"
+    - true_color (string)   : Classe CSS de cor para o estado verdadeiro. [Opcional]
+                              Default: "text-azul-oceano"
+    - false_color (string)  : Classe CSS de cor para o estado falso. [Opcional]
+                              Default: "text-vermelho-coral"
+    - true_label (string)   : Texto do atributo aria-label quando verdadeiro. [Opcional]
+                              Default: "Sim"
+    - false_label (string)  : Texto do atributo aria-label quando falso. [Opcional]
+                              Default: "Não"
+
+  Exemplo de uso simples:
+    {% include "_status_icon.html" with status=True %}
+
+  Exemplo de uso customizado (Ativo / Inativo):
+    {% include "_status_icon.html" with status=usuario.is_active true_label="Ativo" false_label="Inativo" %}
+  =============================================================================
+{% endcomment %}
+{% if status %}
+  <i class="{{ true_icon|default:'bi bi-check-lg' }} {{ true_color|default:'text-azul-oceano' }}"
+     aria-label="{{ true_label|default:'Sim' }}"
+     title="{{ true_label|default:'Sim' }}"></i>
+{% else %}
+  <i class="{{ false_icon|default:'bi bi-x-lg' }} {{ false_color|default:'text-vermelho-coral' }}"
+     aria-label="{{ false_label|default:'Não' }}"
+     title="{{ false_label|default:'Não' }}"></i>
+{% endif %}

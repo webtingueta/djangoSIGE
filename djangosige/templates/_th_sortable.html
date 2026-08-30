@@ -1,0 +1,24 @@
+{% comment %}
+  =============================================================================
+  PARTIAL: _th_sortable.html
+  =============================================================================
+  Renderiza o cabeçalho <> com link e ícones de ordenação mantendo os
+  demais parâmetros da URL via {% querystring %}.
+  =============================================================================
+{% endcomment %}
+<th scope="col" class="text-nowrap {% if align == 'center' %}text-center{% elif align == 'end' %}text-end{% endif %}">
+  <a href="{% querystring order_by=next_order %}"
+     class="text-decoration-none link-dark d-inline-flex align-items-center gap-1">
+    <span>{{ label }}</span>
+
+    {% if is_current %}
+      {% if is_desc %}
+        <i class="bi bi-sort-down text-vermelho-coral" aria-label="Ordenado decrescente"></i>
+      {% else %}
+        <i class="bi bi-sort-up-alt text-vermelho-coral" aria-label="Ordenado crescente"></i>
+      {% endif %}
+    {% else %}
+      <i class="bi bi-arrow-down-up text-muted opacity-50 fs-7" aria-hidden="true"></i>
+    {% endif %}
+  </a>
+</th>

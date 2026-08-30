@@ -15,7 +15,53 @@ from django.utils.translation import gettext_lazy as _
 
 from djangosige.models import TimeStampedModel
 
-from .querysets import CadastroQS
+
+class CadastroQS(models.QuerySet):
+    """
+    QuerySet para filtragem por tipo de pessoa, status de cliente, fornecedor, transportadora e
+    status de ativo/inativo.
+
+    Métodos:
+        pessoa_fisica(): Retorna cadastros de pessoas físicas.
+        pessoa_juridica(): Retorna cadastros de pessoas jurídicas.
+        clientes(): Retorna cadastros que são clientes.
+        fornecedores(): Retorna cadastros que são fornecedores.
+        transportadoras(): Retorna cadastros que são transportadoras.
+        ativos(): Retorna cadastros que estão ativos.
+        inativos(): Retorna cadastros que estão inativos.
+    """
+
+    def pessoa_fisica(self):
+        """Retorna cadastros de pessoas físicas."""
+        return self.filter(tipo_pessoa="F")
+
+    def pessoa_juridica(self):
+        """Retorna cadastros de pessoas jurídicas."""
+        return self.filter(tipo_pessoa="J")
+
+    def clientes(self):
+        """Retorna cadastros que são clientes."""
+        return self.filter(cliente=True)
+
+    def fornecedores(self):
+        """Retorna cadastros que são fornecedores."""
+        return self.filter(fornecedor=True)
+
+    def transportadoras(self):
+        """Retorna cadastros que são transportadoras."""
+        return self.filter(transportadora=True)
+
+    def ativos(self):
+        """Retorna cadastros que estão ativos."""
+        return self.filter(ativo=True)
+
+    def inativos(self):
+        """Retorna cadastros que estão inativos."""
+        return self.filter(ativo=False)
+
+
+class CadastroManager(models.Manager):
+    """Gerenciador de modelo para cadastros de pessoas e empresas."""
 
 
 class Cadastro(TimeStampedModel):
@@ -93,7 +139,7 @@ class Cadastro(TimeStampedModel):
         help_text=_("Observações adicionais sobre este cadastro."),
     )
 
-    objects = CadastroQS.as_manager()
+    objects = CadastroManager.from_queryset(CadastroQS)()
 
     class Meta:
         ordering = ("descricao",)
@@ -105,3 +151,6 @@ class Cadastro(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse("cadastros:ver", kwargs={"pk": self.pk})
+
+    def get_editar_url(self):
+        return reverse("cadastros:editar", kwargs={"pk": self.pk})

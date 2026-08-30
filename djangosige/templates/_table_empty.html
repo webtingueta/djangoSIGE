@@ -1,0 +1,31 @@
+{% comment %}
+=============================================================================
+PARTIAL: _table_empty.html
+=============================================================================
+Descrição:
+  Renderiza uma linha de tabela (<tr>) padronizada para exibir o estado vazio
+  (sem registros) dentro do bloco {% empty %} do Django.
+
+Parâmetros (with ...):
+  - colspan (int)     : Quantidade de colunas que a mensagem deve ocupar. [Obrigatório]
+                        Default: 1
+  - message (string)  : Mensagem exibida para o usuário. [Opcional]
+                        Default: "Nenhum registro encontrado."
+  - icon (string)     : Classe CSS do ícone do Bootstrap Icons (bi). [Opcional]
+                        Default: "bi bi-inbox"
+
+Exemplo de uso simples:
+  {% empty %}
+    {% include "_table_empty.html" with colspan=6 %}
+
+Exemplo de uso customizado:
+  {% empty %}
+    {% include "_table_empty.html" with colspan=4 message="Nenhum cliente cadastrado." icon="bi bi-person-x" %}
+=============================================================================
+{% endcomment %}
+<tr>
+  <td colspan="{{ colspan|default:1 }}" class="text-center text-muted py-4">
+    <i class="{{ icon|default:'bi bi-inbox' }} fs-2 d-block mb-2 text-secondary"></i>
+    {{ message|default:"Nenhum registro encontrado." }}
+  </td>
+</tr>

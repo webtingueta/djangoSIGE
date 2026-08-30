@@ -1,0 +1,78 @@
+{% comment %}
+  =============================================================================
+  PARTIAL: _pagination.html
+  =============================================================================
+  Descrição:
+    Renderiza os controles de paginação do Bootstrap 5 integrados com a tag
+    {% querystring %} para preservar filtros e ordenação ao trocar de página.
+
+  Variáveis da View (esperadas do ListView):
+    - page_obj (Page)     : Objeto da página atual do Django Paginator.
+    - is_paginated (bool) : Booleano indicando se a paginação está ativa.
+
+  Exemplo de uso no template:
+    {% include "cadastros/partials/_pagination.html" %}
+  =============================================================================
+{% endcomment %}
+
+{% if is_paginated %}
+  <nav aria-label="Navegação de páginas" class="d-flex justify-content-between align-items-center">
+    <small class="text-muted d-none d-md-inline">
+      Exibindo <strong>{{ page_obj.start_index }}</strong> a <strong>{{ page_obj.end_index }}</strong> de <strong>{{ page_obj.paginator.count }}</strong> registros
+    </small>
+
+    <ul class="pagination pagination-sm m-0 ms-auto">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="{% querystring page=1 %}" aria-label="Primeira página" title="Primeira página">
+            <i class="bi bi-chevron-double-left" aria-hidden="true"></i>
+          </a>
+        </li>
+          <li class="page-item">
+          <a class="page-link" href="{% querystring page=page_obj.previous_page_number %}" aria-label="Anterior">
+            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link"><i class="bi bi-chevron-double-left" aria-hidden="true"></i></span>
+        </li>
+        <li class="page-item disabled">
+          <span class="page-link"><i class="bi bi-chevron-left" aria-hidden="true"></i></span>
+        </li>
+      {% endif %}
+
+      {% for page_num in page_obj.paginator.page_range %}
+        {% if page_obj.number == page_num %}
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">{{ page_num }}</span>
+          </li>
+        {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+          <li class="page-item">
+            <a class="page-link" href="{% querystring page=page_num %}">{{ page_num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="{% querystring page=page_obj.next_page_number %}" aria-label="Próxima">
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="{% querystring page=page_obj.paginator.num_pages %}" aria-label="Última página" title="Última página">
+            <i class="bi bi-chevron-double-right" aria-hidden="true"></i>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link"><i class="bi bi-chevron-right" aria-hidden="true"></i></span>
+        </li>
+        <li class="page-item disabled">
+          <span class="page-link"><i class="bi bi-chevron-double-right" aria-hidden="true"></i></span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

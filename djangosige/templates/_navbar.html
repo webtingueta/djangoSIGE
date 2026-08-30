@@ -1,0 +1,25 @@
+{% comment %}
+  =============================================================================
+  PARTIAL / INCLUSION TAG: _navbar.html
+  =============================================================================
+  Descrição:
+    Renderizado via Inclusion Tag {% navbar %}.
+    Gera dinamicamente a barra de navegação principal estilo underline.
+
+  Variáveis Recebidas (injetadas pela tag Python):
+    - nav_items (list) : Lista de dicionários contendo label, url_name e is_active.
+
+  Acessibilidade:
+    - Insere 'aria-current="page"' na aba ativa.
+  =============================================================================
+{% endcomment %}
+
+<nav class="nav nav-underline flex-column flex-lg-row" aria-label="Navegação de Módulos">
+  {% for item in nav_items %}
+    <a href="{% url item.url_name %}"
+       class="nav-link text-capitalize {% if item.is_active %}active text-vermelho-coral{% else %}text-azul-oceano{% endif %}"
+       {% if item.is_active %}aria-current="page"{% endif %}>
+      {{ item.label }}
+    </a>
+  {% endfor %}
+</nav>
